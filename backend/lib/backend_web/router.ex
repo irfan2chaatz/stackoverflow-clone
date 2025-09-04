@@ -7,6 +7,8 @@ defmodule BackendWeb.Router do
 
   scope "/api", BackendWeb do
     pipe_through :api
+
+    get "/search", SearchController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
