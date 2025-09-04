@@ -22,15 +22,6 @@ config :backend, BackendWeb.Endpoint,
   pubsub_server: Backend.PubSub,
   live_view: [signing_salt: "N+Y3rSNE"]
 
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :backend, Backend.Mailer, adapter: Swoosh.Adapters.Local
-
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
