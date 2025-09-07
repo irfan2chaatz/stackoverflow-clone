@@ -1,4 +1,4 @@
-defmodule Backend.StackOverflow do
+defmodule Backend.LLM.Fetcher do
   @so_api "https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&site=stackoverflow&q="
 
   def fetch_answers(query) do
@@ -6,18 +6,24 @@ defmodule Backend.StackOverflow do
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, data} = Jason.decode(body)
-        # extract first 5 questions' answers (simplified)
-        Enum.map(data["items"], fn item ->
+        body
+        |> Jason.decode!()
+        |> Map.get("items", [])
+        |> Enum.map(fn item ->
           %{
             title: item["title"],
             link: item["link"],
             score: item["score"],
-            tags: item["tags"]
+            is_answered: item["is_answered"]
           }
         end)
 
-      _ ->
+      {:ok, %HTTPoison.Response{status_code: status}} ->
+        IO.puts("Stack Overflow API returned status: #{status}")
+        []
+
+      {:error, error} ->
+        IO.inspect(error, label: "Error fetching from Stack Overflow")
         []
     end
   end
