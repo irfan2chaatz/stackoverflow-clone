@@ -10,12 +10,14 @@
 /backend/test/*.beam
 /backend/config/*.secret.exs
 /backend/.elixir_ls
+/backend/.env
 
 # If you later add frontend in /frontend
 /frontend/node_modules
 /frontend/dist
 /frontend/.cache
 /frontend/.vite/
+/frontend/.env
 
 # Docker
 *.pid
