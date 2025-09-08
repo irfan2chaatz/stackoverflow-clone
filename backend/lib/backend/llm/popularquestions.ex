@@ -1,6 +1,5 @@
 # lib/backend/llm/PopularQuestions.ex
 defmodule Backend.LLM.PopularQuestions do
-  @moduledoc "Fetch most popular or newest questions from Stack Overflow"
   @so_api "https://api.stackexchange.com/2.3/questions?order=desc&sort="
 
   def fetch_questions(sort \\ "votes", page \\ 1, page_size \\ 10) do

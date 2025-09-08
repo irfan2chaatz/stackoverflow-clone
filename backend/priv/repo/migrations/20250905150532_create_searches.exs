@@ -8,6 +8,7 @@ defmodule Backend.Repo.Migrations.CreateSearches do
     end
 
     create index(:searches, [:inserted_at])
+    create unique_index(:searches, [:query])
   end
 end
 

@@ -8,12 +8,26 @@ defmodule BackendWeb.SearchController do
   use BackendWeb, :controller
 
   def index(conn, %{"q" => query}) do
-    # Save the current search
+    # 1. Delete existing same query (prevent duplicates)
+    from(s in Search, where: s.query == ^query)
+    |> Repo.delete_all()
+
+    # 2. Insert new query
     %Search{}
     |> Search.changeset(%{query: query})
     |> Repo.insert()
 
-    # Fetch last 5 searches (descending by time)
+    # 3. Keep only last 5 searches
+    Repo.query!("""
+      DELETE FROM searches
+      WHERE id NOT IN (
+        SELECT id FROM searches
+        ORDER BY inserted_at DESC
+        LIMIT 5
+      )
+    """)
+
+    # 4. Fetch last 5 searches (descending by time)
     last_searches =
       from(s in Search,
         order_by: [desc: s.inserted_at],
@@ -22,6 +36,7 @@ defmodule BackendWeb.SearchController do
       )
       |> Repo.all()
 
+    # 5. Fetch answers + rerank
     answers = Fetcher.fetch_answers(query)
     reranked_answers = Reranker.rerank(query, answers)
 
@@ -31,5 +46,17 @@ defmodule BackendWeb.SearchController do
       answers: answers,
       reranked_answers: reranked_answers
     })
+  end
+
+  def recent(conn, _params) do
+    last_searches =
+      from(s in Search,
+        order_by: [desc: s.inserted_at],
+        limit: 5,
+        select: s.query
+      )
+      |> Repo.all()
+
+    json(conn, %{recent: last_searches})
   end
 end

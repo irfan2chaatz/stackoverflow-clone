@@ -4,7 +4,7 @@ defmodule Backend.Searches.Search do
 
   schema "searches" do
     field :query, :string
-    timestamps(type: :utc_datetime_usec)
+    timestamps()
   end
 
   def changeset(search, attrs) do

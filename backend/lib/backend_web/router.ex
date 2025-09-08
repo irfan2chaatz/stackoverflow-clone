@@ -9,6 +9,7 @@ defmodule BackendWeb.Router do
     pipe_through(:api)
 
     get("/search", SearchController, :index)
+    get("/recent_searches", SearchController, :recent)
     get("/popular_questions", GeneralController, :questions)
     get("/tags", GeneralController, :tags)
   end
