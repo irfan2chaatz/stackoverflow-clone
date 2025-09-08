@@ -38,6 +38,9 @@ config :backend,
 config :backend, :huggingface,
   token: System.get_env("HUGGINGFACE_TOKEN")
 
+config :backend, :google_api_key,
+  token: System.get_env("GEMINI_TOKEN")
+
 # Phoenix endpoint
 config :backend, BackendWeb.Endpoint,
   url: [host: "localhost"],

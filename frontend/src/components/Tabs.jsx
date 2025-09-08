@@ -5,6 +5,10 @@ import AnswerList from "./AnswerList";
 function Tabs({ original, reranked }) {
   const [active, setActive] = useState("original");
 
+  // console.log("original:", original);
+  // console.log("reranked:", reranked);
+  // console.log("active:", active);
+
   return (
     <div>
       <div className="flex space-x-2 mb-4">
