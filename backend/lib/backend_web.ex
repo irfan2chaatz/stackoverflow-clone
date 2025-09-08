@@ -1,5 +1,4 @@
 defmodule BackendWeb do
-  @moduledoc false
 
   def router do
     quote do
@@ -11,7 +10,7 @@ defmodule BackendWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, formats: [:json]   # ✅ only JSON
+      use Phoenix.Controller, formats: [:json]
       import Plug.Conn
     end
   end

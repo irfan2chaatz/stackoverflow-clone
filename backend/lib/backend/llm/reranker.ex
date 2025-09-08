@@ -39,7 +39,6 @@ defmodule Backend.LLM.Reranker do
     end
   end
 
-  # Build the prompt for Gemini
   defp build_prompt(query, answers) do
     numbered_answers =
       answers
@@ -70,7 +69,6 @@ defmodule Backend.LLM.Reranker do
     """
   end
 
-  # Decode Gemini API response
   defp decode_response(response_body, original_answers) do
     case Jason.decode(response_body) do
       {:ok, %{"candidates" => [_ | _] = candidates}} ->

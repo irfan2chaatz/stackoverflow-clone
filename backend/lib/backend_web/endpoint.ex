@@ -3,8 +3,6 @@ defmodule BackendWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Logger
-
-  # Allow frontend dev server (Vite) to call this API
   plug CORSPlug, origin: ["http://localhost:5173"]
 
   plug Plug.Parsers,

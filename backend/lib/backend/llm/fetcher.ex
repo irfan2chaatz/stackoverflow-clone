@@ -3,7 +3,6 @@ defmodule Backend.LLM.Fetcher do
   @so_api "https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&site=stackoverflow&q="
   @answer_api "https://api.stackexchange.com/2.3/questions/%{question_id}/answers?order=desc&sort=votes&site=stackoverflow&filter=withbody"
 
-  # Public function to fetch questions and their answers
   def fetch_answers(query) do
     url = @so_api <> URI.encode(query)
 
@@ -24,7 +23,6 @@ defmodule Backend.LLM.Fetcher do
     end
   end
 
-  # Map question item and fetch its answers
   defp map_question(item) do
     answers = fetch_question_answers(item["question_id"])
 
@@ -50,7 +48,6 @@ defmodule Backend.LLM.Fetcher do
     }
   end
 
-  # Fetch answers for a single question
   defp fetch_question_answers(question_id) do
     url = String.replace(@answer_api, "%{question_id}", to_string(question_id))
 
@@ -71,11 +68,10 @@ defmodule Backend.LLM.Fetcher do
     end
   end
 
-  # Map answer item
   defp map_answer(answer) do
     %{
       answer_id: answer["answer_id"],
-      body: answer["body"],           # full HTML content
+      body: answer["body"],
       score: answer["score"],
       is_accepted: answer["is_accepted"],
       creation_date: answer["creation_date"],
