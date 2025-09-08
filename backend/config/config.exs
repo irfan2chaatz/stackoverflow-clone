@@ -11,33 +11,22 @@ import Config
   end
 end)
 
-# Database config (instead of dev.exs/prod.exs/test.exs)
-# config :backend, Backend.Repo,
-#   username: "postgres",
-#   password: "postgres",
-#   hostname: "localhost",
-#   database: "backend_dev",
-#   show_sensitive_data_on_connection_error: true,
-#   pool_size: 10,
-#   http: [ip: {0, 0, 0, 0}, port: 4000],
-#   server: true
-
 # Database config
 config :backend, Backend.Repo,
   username: System.get_env("DB_USER"),
   password: System.get_env("DB_PASS"),
-  hostname: System.get_env("DB_HOST"),
+  hostname: System.get_env("DB_HOST") || "db",
   database: System.get_env("DB_NAME"),
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  after_connect: fn _conn ->
+    :timer.sleep(2000)
+  end
 
-# Ecto repos
 config :backend,
   ecto_repos: [Backend.Repo]
 
-config :backend, :huggingface,
-  token: System.get_env("HUGGINGFACE_TOKEN")
-
+# API tokens
 config :backend, :google_api_key,
   token: System.get_env("GEMINI_TOKEN")
 
@@ -48,14 +37,14 @@ config :backend, BackendWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  server: true, # important to start Cowboy server
+  server: true,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   adapter: Phoenix.Endpoint.Cowboy2Adapter
 
-# Logger configuration
+# Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Use Jason for JSON parsing
+# JSON library
 config :phoenix, :json_library, Jason

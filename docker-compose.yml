@@ -1,17 +1,42 @@
-version: '3.8'
 services:
   db:
     image: postgres:15
-    restart: always
+    container_name: stackoverflow-clone-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  backend:
+    build:
+      context: ./backend
+    container_name: stackoverflow-clone-backend
+    env_file:
+      - ./backend/.env
+      - ./.env
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    command: ["mix", "phx.server"]
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: stackoverflow-clone-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - ./frontend:/app
+
 volumes:
   db_data:
-

@@ -7,6 +7,7 @@ defmodule BackendWeb.SearchController do
 
   use BackendWeb, :controller
 
+  # Main search endpoint
   def index(conn, %{"q" => query}) do
     # 1. Delete existing same query (prevent duplicates)
     from(s in Search, where: s.query == ^query)
@@ -48,8 +49,9 @@ defmodule BackendWeb.SearchController do
     })
   end
 
-  def recent(conn, _params) do
-    last_searches =
+  # Endpoint to fetch recent searches for frontend
+  def recent_searches(conn, _params) do
+    recent =
       from(s in Search,
         order_by: [desc: s.inserted_at],
         limit: 5,
@@ -57,6 +59,7 @@ defmodule BackendWeb.SearchController do
       )
       |> Repo.all()
 
-    json(conn, %{recent: last_searches})
+    # Return key matches frontend expectation
+    json(conn, %{recent: recent})
   end
 end

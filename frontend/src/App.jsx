@@ -12,6 +12,7 @@ function App() {
   const [view, setView] = useState("search");
   const [recent, setRecent] = useState([]);
 
+  // Search handler
   const handleSearch = async (query) => {
     try {
       const response = await axios.get(
@@ -25,12 +26,13 @@ function App() {
     }
   };
 
-  // fetch recent searches
+  // Fetch recent searches
   const handleRecent = async () => {
     try {
       const response = await axios.get(
         "http://localhost:4000/api/recent_searches"
       );
+      // Match the key returned by backend
       setRecent(response.data.recent);
       setView("recent");
     } catch (err) {
@@ -46,17 +48,13 @@ function App() {
       {/* Main Buttons to switch view */}
       <div className="flex gap-4 my-4">
         <button
-          className={`px-4 py-2 ${
-            view === "search" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
+          className={`px-4 py-2 ${view === "search" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
           onClick={() => setView("search")}
         >
           Search
         </button>
         <button
-          className={`px-4 py-2 ${
-            view === "general" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
+          className={`px-4 py-2 ${view === "general" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
           onClick={() => setView("general")}
         >
           Questions & Tags
@@ -76,14 +74,22 @@ function App() {
       {view === "recent" && (
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-2">Recent Searches</h2>
-          <ul className="list-disc list-inside space-y-1 text-gray-700">
-            {recent.map((q, i) => (
-              <li key={i} className="cursor-pointer hover:underline"
-                  onClick={() => handleSearch(q)}>
-                {q}
-              </li>
-            ))}
-          </ul>
+
+          {(recent?.length ?? 0) === 0 ? (
+            <p className="text-gray-500 italic">No recent searches</p>
+          ) : (
+            <ul className="list-disc list-inside space-y-1 text-gray-700">
+              {recent.map((q, i) => (
+                <li
+                  key={i}
+                  className="cursor-pointer hover:underline"
+                  onClick={() => handleSearch(q)}
+                >
+                  {q}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
