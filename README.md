@@ -9,7 +9,7 @@ The app allows users to search questions, fetch answers from the official Stack 
 - 🔍 Search for programming questions.  
 - 🌐 Fetch answers from the **Stack Overflow public API**.  
 - 🖥 Display answers in a **React UI** (similar to Stack Overflow).  
-- 🤖 **AI Re-Ranking:** Answers reordered by an LLM (OpenAI, Hugging Face, or local model).  
+- 🤖 **AI Re-Ranking:** Answers reordered by an LLM (OpenAI, Google Gemini, or local model).  
 - 🔄 Toggle between **original** and **AI-ranked** answers.  
 - 🗄 Cache the **last 5 recent searches** per user in PostgreSQL.  
 - 📦 Fully containerized with **Docker & Docker Compose**.  
@@ -20,7 +20,7 @@ The app allows users to search questions, fetch answers from the official Stack 
 - **Backend:** Elixir + Phoenix (API only)  
 - **Frontend:** React (Vite) + Tailwind/MUI  
 - **Database:** PostgreSQL  
-- **LLM Integration:** OpenAI API / Hugging Face / Local LLM (Ollama, llama.cpp, etc.)  
+- **LLM Integration:** OpenAI API / Google Gemini / Local LLM (Ollama, llama.cpp, etc.)  
 - **Infra:** Docker + Docker Compose  
 
 ---
