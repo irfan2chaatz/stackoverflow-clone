@@ -24,3 +24,66 @@ The app allows users to search questions, fetch answers from the official Stack 
 - **Infra:** Docker + Docker Compose  
 
 ---
+
+## ⚙️ Local Setup
+
+### **Prerequisites**
+- [Docker](https://docs.docker.com/get-docker/)  
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+---
+
+### **1. Clone the repository**
+
+```bash
+git clone <YOUR_REPO_URL> stackoverflow-clone
+cd stackoverflow-clone
+```
+
+### **2. Build and start containers**
+
+```bash
+docker compose up --build -d
+```
+
+### **3. Database setup**
+
+Enter the backend container:
+```bash
+docker compose exec backend bash
+
+# Create the database
+mix ecto.create
+
+# Run migrations
+mix ecto.migrate
+
+# Ensure backend/.env contains correct DB credentials:
+DB_USER=postgres
+DB_PASS=postgres
+DB_HOST=db
+DB_NAME=backend_dev
+```
+Exit the container:
+```bash
+exit
+```
+### **4. View logs**
+```bash
+docker compose logs -f backend   # Backend logs
+docker compose logs -f frontend  # Frontend logs
+docker compose logs -f db        # Database logs
+```
+
+### **5. Stop containers**
+```bash
+docker compose down
+```
+
+This version includes:  
+
+1. Prerequisites  
+2. Docker Compose commands  
+3. Ecto database setup  
+4. Optional logs
+
