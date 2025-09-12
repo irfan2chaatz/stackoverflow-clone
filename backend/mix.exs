@@ -30,6 +30,7 @@ defmodule Backend.MixProject do
   # Specifies your project dependencies.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
@@ -39,6 +40,8 @@ defmodule Backend.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
       {:cors_plug, "~> 3.0"},
+      {:phoenix_html, "~> 4.0"},
+      {:swoosh, "~> 1.4"},
       {:dotenvy, "~> 0.7.0"}
     ]
   end
